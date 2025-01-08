@@ -76,9 +76,27 @@ const ui = {
         iconeExcluir.alt = 'Excluir';
         btnExcluir.appendChild(iconeExcluir);
 
+        const btnFavoritar = document.createElement('button');
+        btnFavoritar.classList.add('botao-favoritar');
+        btnFavoritar.onclick = async () => {
+            try {
+                await api.atualizarFavorito(pensamento.id, !pensamento.favorito);
+            } catch (error) {
+                alert('Erro ao atualizar pensamento!');
+                throw error;
+            }
+        }
+
+        const iconeFavoritar = document.createElement('img');
+        iconeFavoritar.src = pensamento.favorito ?
+        './assets/imagens/icone-favorito.png' :
+        './assets/imagens/icone-favorito_outline.png';
+        iconeFavoritar.alt = 'Favoritar';
+        btnFavoritar.appendChild(iconeFavoritar);
+
         const icones = document.createElement('div');
         icones.classList.add('icones');
-        icones.append(btnEditar, btnExcluir);
+        icones.append(btnFavoritar, btnEditar, btnExcluir);
 
         li.append(iconeAspas, pensamentoConteudo, pensamentoAutoria, icones);
         listaPensamentos.appendChild(li);
