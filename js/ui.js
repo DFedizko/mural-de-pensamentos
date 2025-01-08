@@ -10,29 +10,26 @@ const ui = {
         document.getElementById('pensamento-autoria').value = pensamento.autoria;
     },
 
-    async renderizarPensamentos() {
+    async renderizarPensamentos(pensamentosFiltrados = null) {
         const listaPensamentos = document.getElementById('lista-pensamentos');
         listaPensamentos.innerHTML = ''; // Esvazia a UL antes de carregar os pensamentos
 
         try {
-            const pensamentos = await api.buscarPensamentos();
-            pensamentos.forEach(this.adicionarPensamentoNaLista);
+            let pensamentosParaRenderizar;
+
+            if (pensamentosFiltrados) {
+                pensamentosParaRenderizar = pensamentosFiltrados;
+            } else {
+                pensamentosParaRenderizar = await api.buscarPensamentos();
+            }
+
+            pensamentosParaRenderizar.forEach(this.adicionarPensamentoNaLista);
         } catch {
             alert('Erro ao renderizar pensamentos!');
         }
 
-        if (listaPensamentos.innerHTML == '') {
-            const containerMensagem = document.getElementById('mensagem-vazia');
-            containerMensagem.classList.add('mensagem-vazia');
-
-            const mensagemVazia = document.createElement('p');
-            mensagemVazia.textContent = 'Nada por aqui ainda, que tal compartilhar alguma ideia?';
-
-            const imagem = document.createElement('img');
-            imagem.src = './assets/imagens/lista-vazia.png';
-
-            containerMensagem.append(mensagemVazia, imagem);
-        }
+        const mensagemVazia = document.getElementById('mensagem-vazia');
+        listaPensamentos.innerHTML == '' ? mensagemVazia.style.display = 'block' : mensagemVazia.style.display = 'none'; 
     },
 
     adicionarPensamentoNaLista(pensamento) {

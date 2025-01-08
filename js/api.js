@@ -46,6 +46,23 @@ const api = {
             alert('Erro ao excluir um pensamento!');
             throw error;
         }
+    },
+
+    async buscarPensamentosPorTermo(termo) {
+        try {
+            const pensamentos = await this.buscarPensamentos(); // Recebe array de objetos que representam pensamentos
+            const termoEmMinusculas = termo.toLowerCase();
+            
+            const pensamentoFiltrados = pensamentos.filter(pensamento => { // Aplica o método filter nesse array
+
+                // Retorna para a variável pensamentoFiltrados um array com os objetos que incluem o parâmetro termo convertido em minúsculas nos valores conteudo ou autoria
+                return pensamento.conteudo.toLowerCase().includes(termoEmMinusculas) || pensamento.autoria.toLowerCase().includes(termoEmMinusculas);
+            });
+            return pensamentoFiltrados; // Envia a variável pra quem chamou
+        } catch (error) {
+            alert('Erro ao filtrar pensamentos!');
+            throw error;
+        }
     }
 }	
 
