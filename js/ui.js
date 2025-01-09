@@ -8,6 +8,9 @@ const ui = {
         document.getElementById('pensamento-id').value = pensamento.id; // Preenche um input invisível declarando o id
         document.getElementById('pensamento-conteudo').value = pensamento.conteudo;
         document.getElementById('pensamento-autoria').value = pensamento.autoria;
+        document.getElementById('pensamento-data').value = pensamento.data.
+        toISOString().split('T')[0];
+        document.getElementById('form-container').scrollIntoView();
     },
 
     async renderizarPensamentos(pensamentosFiltrados = null) {
@@ -50,6 +53,20 @@ const ui = {
         const pensamentoAutoria = document.createElement('div');
         pensamentoAutoria.textContent = pensamento.autoria;
         pensamentoAutoria.classList.add('pensamento-conteudo');
+
+        const pensamentoData = document.createElement('div');
+
+        let options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC'
+        }
+        const dataFormatada = pensamento.data.toLocaleDateString('pt-BR', options);
+        const dataComRegEx = dataFormatada.replace(/^(\w)/, (match) => match.toUpperCase());
+        pensamentoData.textContent = dataComRegEx;
+        pensamentoData.classList.add('pensamento-data');
 
         const btnEditar = document.createElement('button');
         btnEditar.classList.add('botao-editar');
@@ -98,7 +115,7 @@ const ui = {
         icones.classList.add('icones');
         icones.append(btnFavoritar, btnEditar, btnExcluir);
 
-        li.append(iconeAspas, pensamentoConteudo, pensamentoAutoria, icones);
+        li.append(iconeAspas, pensamentoConteudo, pensamentoAutoria, pensamentoData, icones);
         listaPensamentos.appendChild(li);
     },
 

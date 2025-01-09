@@ -1,10 +1,23 @@
 const URL_BASE = 'http://localhost:3000';
 
+const converterStringParaData = (dataString) => {
+    const [ano, mes, dia] = dataString.split('-');
+    //2025-01-09 = [2025, 01, 09]
+    return new Date(Date.UTC(ano, mes - 1, dia));
+}
+
 const api = {
     async buscarPensamentos() {
         try {
             const response = await axios.get(`${URL_BASE}/pensamentos`);
-            return response.data // Retorna o array de objetos com os dados em JSON
+            const pensamentos = response.data // Retorna o array de objetos com os dados em JSON
+
+            return pensamentos.map(pensamento => {
+                return {
+                    ...pensamento,
+                    data: new Date(pensamento.data)
+                }
+            });
         } catch (error) {
             alert('Erro ao buscar pensamentos!');
             throw error;
@@ -13,7 +26,11 @@ const api = {
 
     async salvarPensamento(pensamento) {
         try {
-            await axios.post(`${URL_BASE}/pensamentos`, pensamento);
+            const data = converterStringParaData(pensamento.data);
+            await axios.post(`${URL_BASE}/pensamentos`, {
+                ...pensamento,
+                data: data.toISOString()
+            });
         } catch (error) {
             alert('Erro ao salvar pensamento!');
             throw error;
@@ -23,7 +40,12 @@ const api = {
     async buscarPensamentoPorId(id) {
         try {
             const response = await axios.get(`${URL_BASE}/pensamentos/${id}`);
-            return response.data; // Retorna o objeto que corresponde ao ID passado
+            const pensamento = response.data; // Retorna o objeto que corresponde ao ID passado
+
+            return {
+                ...pensamento,
+                data: new Date(pensamento.data)
+            }
         } catch (error) {
             alert('Erro ao buscar pensamento pelo id!');
             throw error;
