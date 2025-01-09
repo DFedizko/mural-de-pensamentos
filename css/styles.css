@@ -123,6 +123,10 @@ h2, h3 {
   width: 100%;
 }
 
+textarea {
+  resize: none;
+}
+
 #busca-container {
   display: flex;
   align-items: center;
@@ -287,7 +291,7 @@ h2, h3 {
 
 .icones {
   position: absolute;
-  bottom: 16px;
+  bottom: 65px;
   right: 16px;
 }
 
