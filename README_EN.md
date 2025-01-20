@@ -2,7 +2,7 @@
 
 Memoteca is an app for organizing thoughts and quotes that allows users to create, list, edit, delete, filter, and favorite thoughts, including information such as content, author, and date.
 
-![Memoteca Image](assets/imagens/screenshot.png)
+![Memoteca Image](assets/imagens/screenshot-en.png)
 
 ## 🔨 Project Features
 
